@@ -1,0 +1,3 @@
+# Ignore path with .min.js at the end:
+**/**.min.js
+**/**.min.js.map

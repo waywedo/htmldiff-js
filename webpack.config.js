@@ -1,11 +1,11 @@
-const webpack = require('webpack');
 const path = require('path');
 const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin  } = require("clean-webpack-plugin");
+const webpack = require("webpack");
 
 module.exports = {
     entry: {
-        htmldiff: ['babel-polyfill', './src/Diff.js'],
+        htmldiff: ['./src/Diff.js'],
     },
 
     output: {
@@ -14,6 +14,19 @@ module.exports = {
         publicPath: '/dist/',
         library: 'HtmlDiff',
         libraryTarget: 'commonjs2'
+    },
+
+    node: {
+        // prevent webpack from injecting useless setImmediate polyfill because Vue
+        // source contains it (although only uses it if it's native).
+        setImmediate: false,
+        // prevent webpack from injecting mocks to Node native modules
+        // that does not make sense for the client
+        dgram: "empty",
+        fs: "empty",
+        net: "empty",
+        tls: "empty",
+        child_process: "empty"
     },
 
     module: {
@@ -29,8 +42,15 @@ module.exports = {
     },
 
     plugins: [
-        new CleanWebpackPlugin(['dist']),
-        new UnminifiedWebpackPlugin()
+        new CleanWebpackPlugin(
+            {
+                dry: false,
+                cleanOnceBeforeBuildPatterns: [
+                    "dist"
+                ]
+            }),
+        new webpack.optimize.ModuleConcatenationPlugin(),
+        new UnminifiedWebpackPlugin()       
     ],
 
     optimization: {

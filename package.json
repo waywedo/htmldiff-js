@@ -6,7 +6,7 @@
   "author": "Jordan Hitch",
   "license": "ISC",
   "scripts": {
-    "build": "webpack --mode production"
+    "build": "webpack -p --mode production"
   },
   "repository": {
     "type": "git",
@@ -24,14 +24,15 @@
   },
   "homepage": "https://github.com/dfoverdx/htmldiff-js#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.4",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "clean-webpack-plugin": "^0.1.17",
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "core-js": "^3.6.4",
+    "regenerator-runtime": "^0.13.3",
     "unminified-webpack-plugin": "^2.0.0",
-    "webpack": "^4.40.2",
-    "webpack-cli": "^3.3.9"
-  }
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  },
+  "dependencies": {}
 }
