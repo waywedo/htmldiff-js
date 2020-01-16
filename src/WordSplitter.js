@@ -1,5 +1,5 @@
-﻿import Mode from './Mode';
-import * as Utils from './Utils';
+﻿import Mode from "./Mode";
+import * as Utils from "./Utils";
 
 function convertHtmlToListOfWords(text, blockExpressions) {
     let state = {
@@ -20,20 +20,21 @@ function convertHtmlToListOfWords(text, blockExpressions) {
         // Don't bother executing block checks if we don't have any blocks to check for!
         if (isBlockCheckRequired) {
             // Check if we have completed grouping a text sequence/block
-            if (groupingUntil === index) {
+            if (groupingUntil === i) {
                 groupingUntil = -1;
                 isGrouping = false;
             }
 
             // Check if we need to group the next text sequence/block
             let until = 0;
-            if (blockLocations.has(index)) {
-                until = blockLocations.get(index);
+            if (blockLocations.has(i)) {
+                until = blockLocations.get(i);
                 isGrouping = true;
                 groupingUntil = until;
             }
 
-            // if we are grouping, then we don't care about what type of character we have, it's going to be treated as a word
+            // if we are grouping, then we don't care about what type of character
+            // we have, it's going to be treated as a word
             if (isGrouping) {
                 state.currentWord.push(character);
                 state.mode = Mode.character;
@@ -44,13 +45,18 @@ function convertHtmlToListOfWords(text, blockExpressions) {
         switch (state.mode) {
             case Mode.character:
                 if (Utils.isStartOfTag(character)) {
-                    addClearWordSwitchMode(state, '<', Mode.tag);
+                    addClearWordSwitchMode(state, "<", Mode.tag);
                 } else if (Utils.isStartOfEntity(character)) {
                     addClearWordSwitchMode(state, character, Mode.entity);
                 } else if (Utils.isWhiteSpace(character)) {
                     addClearWordSwitchMode(state, character, Mode.whitespace);
-                } else if (Utils.isWord(character) &&
-                    (state.currentWord.length === 0 || Utils.isWord(state.currentWord[state.currentWord.length - 1]))) {
+                } else if (
+                    Utils.isWord(character) &&
+                    (state.currentWord.length === 0 ||
+                        Utils.isWord(
+                            state.currentWord[state.currentWord.length - 1]
+                        ))
+                ) {
                     state.currentWord.push(character);
                 } else {
                     addClearWordSwitchMode(state, character, Mode.character);
@@ -61,10 +67,12 @@ function convertHtmlToListOfWords(text, blockExpressions) {
             case Mode.tag:
                 if (Utils.isEndOfTag(character)) {
                     state.currentWord.push(character);
-                    state.words.push(state.currentWord.join(''));
+                    state.words.push(state.currentWord.join(""));
 
                     state.currentWord = [];
-                    state.mode = Utils.isWhiteSpace(character) ? Mode.whitespace : Mode.character;
+                    state.mode = Utils.isWhiteSpace(character)
+                        ? Mode.whitespace
+                        : Mode.character;
                 } else {
                     state.currentWord.push(character);
                 }
@@ -93,12 +101,18 @@ function convertHtmlToListOfWords(text, blockExpressions) {
                     let switchToNextMode = true;
                     if (state.currentWord.length !== 0) {
                         state.currentWord.push(character);
-                        state.words.push(state.currentWord.join(''));
+                        state.words.push(state.currentWord.join(""));
 
                         //join &nbsp; entity with last whitespace
-                        if (state.words.length > 2 &&
-                            Utils.isWhiteSpace(state.words[state.words.length - 2]) &&
-                            Utils.isWhiteSpace(state.words[state.words.length - 1])) {
+                        if (
+                            state.words.length > 2 &&
+                            Utils.isWhiteSpace(
+                                state.words[state.words.length - 2]
+                            ) &&
+                            Utils.isWhiteSpace(
+                                state.words[state.words.length - 1]
+                            )
+                        ) {
                             let w1 = state.words[state.words.length - 2];
                             let w2 = state.words[state.words.length - 1];
                             state.words.splice(state.words.length - 2, 2);
@@ -123,7 +137,7 @@ function convertHtmlToListOfWords(text, blockExpressions) {
     }
 
     if (state.currentWord.length !== 0) {
-        state.words.push(state.currentWord.join(''));
+        state.words.push(state.currentWord.join(""));
     }
 
     return state.words;
@@ -131,7 +145,7 @@ function convertHtmlToListOfWords(text, blockExpressions) {
 
 function addClearWordSwitchMode(state, character, mode) {
     if (state.currentWord.length !== 0) {
-        state.words.push(state.currentWord.join(''));
+        state.words.push(state.currentWord.join(""));
     }
 
     state.currentWord = [character];
@@ -145,16 +159,18 @@ function findBlocks(text, blockExpressions) {
         return blockLocations;
     }
 
-    for (let exp of blockExpressions) {
+    blockExpressions.forEach((exp) => {
         let m;
         while ((m = exp.exec(text)) !== null) {
             if (blockLocations.has(m.index)) {
-                throw new Error("One or more block expressions result in a text sequence that overlaps. Current expression: " + exp.toString());
+                throw new Error(
+                    "One or more block expressions result in a text sequence that overlaps. Current expression: " +
+                        exp.toString()
+                );
             }
-
             blockLocations.set(m.index, m.index + m[0].length);
         }
-    }
+    });
 
     return blockLocations;
 }

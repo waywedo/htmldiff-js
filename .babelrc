@@ -3,16 +3,15 @@
     [
       "@babel/preset-env",
       {
-          "useBuiltIns": "usage",
           "targets": {
               "node": 10,
               "browsers": [ ">0.25%", "not op_mini all" ]
           },
-          "corejs": 3.6,
           "modules": false,
           "debug": true
       }
   ]
   ],
+  "plugins": ["@babel/plugin-transform-runtime"],
   "comments" : false
 }

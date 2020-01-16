@@ -2,6 +2,7 @@ const path = require('path');
 const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 const { CleanWebpackPlugin  } = require("clean-webpack-plugin");
 const webpack = require("webpack");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     entry: {
@@ -50,7 +51,8 @@ module.exports = {
                 ]
             }),
         new webpack.optimize.ModuleConcatenationPlugin(),
-        new UnminifiedWebpackPlugin()       
+        new UnminifiedWebpackPlugin(),
+        //new BundleAnalyzerPlugin()   
     ],
 
     optimization: {
