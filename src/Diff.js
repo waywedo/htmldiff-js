@@ -48,6 +48,14 @@ class HtmlDiff {
             return this.newText;
         }
 
+        if (typeof this.oldText === "undefined" || this.oldText === null) {
+            return this.newText;
+        }
+
+        if (typeof this.newText === "undefined" || this.newText === null) {
+            return this.oldText;
+        }
+
         this.splitInputsIntoWords();
 
         this.matchGranularity = Math.min(
@@ -338,7 +346,7 @@ class HtmlDiff {
             ) {
                 yield curr;
 
-                // eslint-disable-next-line no-unused-vars
+                // eslint-disable-next-line no-unused-vars,no-extra-parens
                 let tmp = (prev = curr); // "let tmp" avoids babel traspiling error
                 curr = next;
                 continue;
