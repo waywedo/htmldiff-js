@@ -25,11 +25,3 @@ test("Handles null new text", () => {
     const result = HtmlDiff.execute("old text", null);
     expect(result).toBe("old text");
 });
-
-test("Breaking test", () => {
-    const result = HtmlDiff.execute(
-        "Some plain text",
-        "Some <strong><i>plain</i></strong> text"
-    );
-    expect(result).toBe("Some <strong><i><ins class=\"mod\">plain</ins></i></strong> text");
-});

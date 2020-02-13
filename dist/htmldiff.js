@@ -1357,6 +1357,14 @@ var Diff_HtmlDiff = function () {
         return this.newText;
       }
 
+      if (typeof this.oldText === "undefined" || this.oldText === null) {
+        return this.newText;
+      }
+
+      if (typeof this.newText === "undefined" || this.newText === null) {
+        return this.oldText;
+      }
+
       this.splitInputsIntoWords();
       this.matchGranularity = Math.min(MatchGranuarityMaximum, this.oldWords.length, this.newWords.length);
       var operations = this.operations();
@@ -1462,7 +1470,7 @@ var Diff_HtmlDiff = function () {
           } else if (specialCaseClosingTags.has(words[0])) {
             var openingTag = this.specialTagDiffStack.length === 0 ? null : this.specialTagDiffStack.pop();
 
-            if (!(openingTag === null || openingTag !== words[0].replace(/\//g, ""))) {
+            if (openingTag === null || openingTag !== words[words.length - 1].replace(/\//g, "")) {} else {
               specialCaseTagInjection = "</ins>";
               specialCaseTagInjectionIsbefore = true;
             }
