@@ -928,11 +928,11 @@ var tagRegex = /^\s*<\/?[^>]+>\s*$/;
 var tagWordRegex = /<[^\s>]+/;
 var whitespaceRegex = /^(\s|&nbsp;)+$/;
 var wordRegex = /[\w#@]+/;
-var specialCaseWordTags = ["<img"];
+var specialCaseWordTags = ["<img", "<iframe", "</iframe"];
 
 function isTag(item) {
-  if (specialCaseWordTags.some(function (re) {
-    return item !== null && item.indexOf(re) === 0;
+  if (specialCaseWordTags.some(function (tag) {
+    return item !== null && item.indexOf(tag) === 0;
   })) {
     return false;
   }
