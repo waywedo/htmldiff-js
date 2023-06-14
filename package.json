@@ -1,9 +1,9 @@
 {
-  "name": "htmldiff-js",
-  "version": "1.0.5",
-  "description": "JavaScript port of HtmlDiff.Net which is itself a C# port of HtmlDiff",
+  "name": "waywedo-htmldiff-js",
+  "version": "1.1.0",
+  "description": "JavaScript port of HtmlDiff.Net which is itself a C# port of HtmlDiff. Updated for Way We Do",
   "main": "./dist/htmldiff.min.js",
-  "author": "Jordan Hitch",
+  "author": "Jordan Hitch / Way We Do",
   "license": "ISC",
   "scripts": {
     "test": "jest",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dfoverdx/htmldiff-js.git"
+    "url": "git+https://github.com/waywedo/htmldiff-js"
   },
   "keywords": [
     "HtmlDiff",
@@ -20,10 +20,6 @@
     "Diff Algorithm",
     "Diff Structured File"
   ],
-  "bugs": {
-    "url": "https://github.com/dfoverdx/htmldiff-js/issues"
-  },
-  "homepage": "https://github.com/dfoverdx/htmldiff-js#readme",
   "jest": {
     "testEnvironment": "jsdom",
     "setupFiles": [
