@@ -3,7 +3,7 @@ const tagWordRegex = /<[^\s>]+/;
 const whitespaceRegex = /^(\s|&nbsp;)+$/;
 const wordRegex = /[\w#@]+/;
 
-const specialCaseWordTags = ["<img", "<iframe", "</iframe"];
+const specialCaseWordTags = ["<img", "<iframe", "</iframe", "<figure", "</figure", "<oembed", "</oembed"];
 
 function isTag(item) {
     if (specialCaseWordTags.some(tag => item !== null && item.indexOf(tag) === 0)) {
@@ -15,7 +15,7 @@ function isTag(item) {
 
 function stripTagAttributes(word) {
     let tag = tagWordRegex.exec(word)[0];
-    
+
     word = tag + (word.indexOf("/>", word.length - 2) !== -1 ? "/>" : ">");
     return word;
 }
