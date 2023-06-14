@@ -1,7 +1,7 @@
 {
     "extends": "eslint:recommended",
     "parserOptions": {
-        "ecmaVersion": 6,
+        "ecmaVersion": 2020,
         "sourceType": "module",
         "ecmaFeatures": {
             "jsx": false
@@ -17,7 +17,6 @@
         "worker": false
     },
     "rules": {
-        "indent": ["error", 4, { "SwitchCase": 1 }],
         "curly": 1,
         "eqeqeq": 2,
         "comma-dangle": 1,
@@ -29,6 +28,7 @@
         "no-irregular-whitespace": 1,
         "no-undef": 2,
         "no-unused-vars": 2,
+        "no-var": 1,
         "semi": 1,
         "semi-spacing": 1,
         "valid-jsdoc": [
@@ -45,6 +45,12 @@
         "max-len": [
             1,
             120
+        ],
+        "no-multiple-empty-lines": [
+            1,
+            {
+                "max": 1
+            }
         ]
     }
 }
