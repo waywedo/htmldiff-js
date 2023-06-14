@@ -1,0 +1,8 @@
+__tests__/**/*
+webpack.config.js
+babel.config.js
+.editorconfig
+.eslintrc
+.eslintignore
+.prettierrc
+jestsetup.js

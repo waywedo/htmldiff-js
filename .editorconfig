@@ -1,0 +1,12 @@
+# Configurations to normalize the IDE behavior.
+# http://editorconfig.org/
+
+root = true
+
+[*]
+end_of_line= crlf
+indent_size=4
+indent_style=space
+max_line_length=120
+trim_trailing_whitespace=true
+guidelines =120
