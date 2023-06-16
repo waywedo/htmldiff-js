@@ -37,11 +37,33 @@ test("Handles deleted iframe", () => {
 });
 
 test("Handles new figure", () => {
-    const result = HtmlDiff.execute("<h2>title</h2><p>content</p>", "<h2>title</h2><figure class=\"media\"><oembed url=\"https://www.youtube.com/watch?v=3Op13QU0W5g\" width=\"undefined\" height=\"undefined\"></oembed></figure><p>content</p>");
+    const diff = new HtmlDiff("<h2>title</h2><p>content</p>", "<h2>title</h2><figure class=\"media\"><oembed url=\"https://www.youtube.com/watch?v=3Op13QU0W5g\" width=\"undefined\" height=\"undefined\"></oembed></figure><p>content</p>");
+
+    diff.addBlockExpression(/<figure[^>]*\bclass\s*=\s*"media"[^>]*>\s*?<oembed[^>]*>\s*?<\/oembed>\s*?<\/figure>/isg);
+
+    const result = diff.build();
+
     expect(result).toBe("<h2>title</h2><ins class=\"diffins\"><figure class=\"media\"><oembed url=\"https://www.youtube.com/watch?v=3Op13QU0W5g\" width=\"undefined\" height=\"undefined\"></oembed></figure></ins><p>content</p>");
 });
 
 test("Handles deleted figure", () => {
-    const result = HtmlDiff.execute("<h2>title</h2><figure class=\"media\"><oembed url=\"https://www.youtube.com/watch?v=3Op13QU0W5g\" width=\"undefined\" height=\"undefined\"></oembed></figure><p>content</p>", "<h2>title</h2><p>content</p>");
+    const diff = new HtmlDiff("<h2>title</h2><figure class=\"media\"><oembed url=\"https://www.youtube.com/watch?v=3Op13QU0W5g\" width=\"undefined\" height=\"undefined\"></oembed></figure><p>content</p>", "<h2>title</h2><p>content</p>");
+
+    diff.addBlockExpression(/<figure[^>]*\bclass\s*=\s*"media"[^>]*>\s*?<oembed[^>]*>\s*?<\/oembed>\s*?<\/figure>/isg);
+
+    const result = diff.build();
+
     expect(result).toBe("<h2>title</h2><del class=\"diffdel\"><figure class=\"media\"><oembed url=\"https://www.youtube.com/watch?v=3Op13QU0W5g\" width=\"undefined\" height=\"undefined\"></oembed></figure></del><p>content</p>");
+});
+
+test("Handles edited figure", () => {
+
+    const diff = new HtmlDiff(
+        "<h2>title</h2><figure class=\"media\"><oembed url=\"https://www.youtube.com/watch?v=3Op13QU0W5g\" width=\"undefined\" height=\"undefined\"></oembed></figure><p>content</p>",
+        "<h2>title</h2><figure class=\"media\"><oembed url=\"https://www.youtube.com/watch?v=3Op13QU0W5g\" width=\"undefined\" height></oembed></figure><p>content</p>",
+    );
+    diff.addBlockExpression(/<figure[^>]*\bclass\s*=\s*"media"[^>]*>\s*?<oembed[^>]*>\s*?<\/oembed>\s*?<\/figure>/isg);
+
+    const result = diff.build();
+    expect(result).toBe("<h2>title</h2><del class=\"diffmod\"><figure class=\"media\"><oembed url=\"https://www.youtube.com/watch?v=3Op13QU0W5g\" width=\"undefined\" height=\"undefined\"></oembed></figure></del><ins class=\"diffmod\"><figure class=\"media\"><oembed url=\"https://www.youtube.com/watch?v=3Op13QU0W5g\" width=\"undefined\" height></oembed></figure></ins><p>content</p>");
 });
