@@ -15,7 +15,7 @@ function convertHtmlToListOfWords(text, blockExpressions) {
     let groupingUntil = -1;
 
     for (let i = 0; i < text.length; i++) {
-        var character = text[i];
+        const character = text[i];
 
         // Don't bother executing block checks if we don't have any blocks to check for!
         if (isBlockCheckRequired) {
@@ -52,10 +52,7 @@ function convertHtmlToListOfWords(text, blockExpressions) {
                     addClearWordSwitchMode(state, character, Mode.whitespace);
                 } else if (
                     Utils.isWord(character) &&
-                    (state.currentWord.length === 0 ||
-                        Utils.isWord(
-                            state.currentWord[state.currentWord.length - 1]
-                        ))
+                    (state.currentWord.length === 0 || Utils.isWord(state.currentWord[state.currentWord.length - 1]))
                 ) {
                     state.currentWord.push(character);
                 } else {
@@ -70,9 +67,7 @@ function convertHtmlToListOfWords(text, blockExpressions) {
                     state.words.push(state.currentWord.join(""));
 
                     state.currentWord = [];
-                    state.mode = Utils.isWhiteSpace(character)
-                        ? Mode.whitespace
-                        : Mode.character;
+                    state.mode = Utils.isWhiteSpace(character) ? Mode.whitespace : Mode.character;
                 } else {
                     state.currentWord.push(character);
                 }
@@ -106,12 +101,8 @@ function convertHtmlToListOfWords(text, blockExpressions) {
                         //join &nbsp; entity with last whitespace
                         if (
                             state.words.length > 2 &&
-                            Utils.isWhiteSpace(
-                                state.words[state.words.length - 2]
-                            ) &&
-                            Utils.isWhiteSpace(
-                                state.words[state.words.length - 1]
-                            )
+                            Utils.isWhiteSpace(state.words[state.words.length - 2]) &&
+                            Utils.isWhiteSpace(state.words[state.words.length - 1])
                         ) {
                             let w1 = state.words[state.words.length - 2];
                             let w2 = state.words[state.words.length - 1];

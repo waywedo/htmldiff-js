@@ -6,7 +6,7 @@ const wordRegex = /[\w#@]+/;
 const specialCaseWordTags = ["<img", "<iframe", "</iframe", "<figure", "</figure", "<oembed", "</oembed"];
 
 function isTag(item) {
-    if (specialCaseWordTags.some(tag => item !== null && item.indexOf(tag) === 0)) {
+    if (specialCaseWordTags.some((tag) => item !== null && item.indexOf(tag) === 0)) {
         return false;
     }
 

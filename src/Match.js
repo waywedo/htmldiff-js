@@ -12,4 +12,4 @@
     get endInNew() {
         return this.startInNew + this.size;
     }
-};
+}
